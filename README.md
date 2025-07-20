@@ -1,2 +1,2 @@
-# Vinalhaven
+# Foxhaven
 Foxhaven Map Public Repository
