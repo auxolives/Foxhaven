@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<territory-type>
+    <!-- <territory color="4291611852"> -->
+        <!-- <zone name="Rest" smin="0" smax="0" dmin="0" dmax="0" x="6254.5" z="12519" r="195"/> -->
+        <!-- <zone name="Rest" smin="0" smax="0" dmin="0" dmax="0" x="4585.5" z="11101.5" r="180"/> -->
+        <!-- <zone name="HuntingGround" smin="0" smax="0" dmin="0" dmax="0" x="5197.5" z="11844" r="195"/> -->
+        <!-- <zone name="HuntingGround" smin="0" smax="0" dmin="0" dmax="0" x="5417.5" z="12328" r="165"/> -->
+        <!-- <zone name="HuntingGround" smin="0" smax="0" dmin="0" dmax="0" x="4768" z="12992" r="195"/> -->
+        <!-- <zone name="Rest" smin="0" smax="0" dmin="0" dmax="0" x="5352" z="13400" r="195"/> -->
+    <!-- </territory> -->
+    <!-- <territory color="4291611852"> -->
+        <!-- <zone name="HuntingGround" smin="0" smax="0" dmin="0" dmax="0" x="5912" z="12016" r="195"/> -->
+        <!-- <zone name="HuntingGround" smin="0" smax="0" dmin="0" dmax="0" x="6121.5" z="11400" r="165"/> -->
+        <!-- <zone name="Rest" smin="0" smax="0" dmin="0" dmax="0" x="6425.5" z="12149.5" r="180"/> -->
+        <!-- <zone name="HuntingGround" smin="0" smax="0" dmin="0" dmax="0" x="7069.5" z="11220" r="195"/> -->
+        <!-- <zone name="Rest" smin="0" smax="0" dmin="0" dmax="0" x="5056" z="11336" r="195"/> -->
+        <!-- <zone name="Rest" smin="0" smax="0" dmin="0" dmax="0" x="4854.5" z="12375" r="195"/> -->
+    <!-- </territory> -->
+</territory-type>
