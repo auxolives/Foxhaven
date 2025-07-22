@@ -1,0 +1,23 @@
+{
+    "isHeatBufferEnabled": 0,
+    "movementPenaltiesSettings": {
+        "playerEnergyWaterBloodSettings": {
+            "isPenaltyEnabled": 1
+        },
+        "terrainSlopeSettings": {
+            "isPenaltyEnabled": 1,
+            "slopeUpWeak_deg": 15.0,
+            "slopeUpMedium_deg": 22.0,
+            "slopeUpStrong_deg": 31.0,
+            "slopeUpCritical_deg": 40.0,
+            "slopeDownWeak_deg": 36.0,
+            "slopeDownMedium_deg": 50.0
+        },
+        "weightSettings": {
+            "isPenaltyEnabled": 1,
+            "loadPenaltyLevel1_g": 50000.0,
+            "loadPenaltyLevel2_g": 60000.0,
+            "loadPenaltyLevel3_g": 70000.0
+        }
+    }
+}

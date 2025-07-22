@@ -4,9 +4,6 @@ modded class PlayerBase
     float m_SlopeCheckTimer;
     bool  m_IsSlopePenaltyActive;
 
-    const float SLOPE_SAMPLE_DISTANCE = 1.25;
-    const float SLOPE_MIN_DIFF        = 0.10;
-
     void PlayerBase()
     {
         RegisterNetSyncVariableBool("m_IsSlopePenaltyActive");
@@ -16,7 +13,10 @@ modded class PlayerBase
     {
         super.OnCommandHandlerTick(delta_time, pCurrentCommandID);
         #ifdef SERVER
-            SlopePenaltyHandler(delta_time);
+            if (FoxhavenConfig.GetInstance().GetMovementPenaltiesSettings().terrainSlopeSettings.isPenaltyEnabled)
+            {
+                SlopePenaltyHandler(delta_time);
+            }
         #endif
     }
 
@@ -38,10 +38,12 @@ modded class PlayerBase
             return;
         }
 
+        const float SLOPE_SAMPLE_DISTANCE = 1.25;
         vector ahead = pos + dir * SLOPE_SAMPLE_DISTANCE;
         float aheadY = GetGame().SurfaceY(ahead[0], ahead[2]);
         float dh = aheadY - ground;
 
+        const float SLOPE_MIN_DIFF = 0.10;
         if (Math.AbsFloat(dh) < SLOPE_MIN_DIFF)
             m_SlopeAngle = 0;
         else
