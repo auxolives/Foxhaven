@@ -1,259 +1,292 @@
-enum EModdedWeatherScenario
+class VinalhavenData extends WorldData
 {
-    CLEAR,
-    FOGGY,
-    LIGHT_RAIN,
-    MEDIUM_RAIN,
-    HEAVY_RAIN
-};
+	protected float m_DebugFastWeather = 0;
+	protected bool m_IsFogEventActive = false;
 
-class VinalhavenData : WorldData
-{
-    private float SCENARIO_OVERCAST_CLEAR           = 0.15;
-    private float SCENARIO_OVERCAST_FOGGY           = 0.20;
-    private float SCENARIO_OVERCAST_LIGHT_RAIN      = 0.45;
-    private float SCENARIO_OVERCAST_MEDIUM_RAIN     = 0.55;
-    private float SCENARIO_OVERCAST_HEAVY_RAIN      = 0.65;
+	override void Init()
+	{
+		super.Init();
 
-    private float SCENARIO_RAINFALL_CLEAR           = 0.0;
-    private float SCENARIO_RAINFALL_FOGGY           = 0.0;
-    private float SCENARIO_RAINFALL_LIGHT_RAIN      = 0.05;
-    private float SCENARIO_RAINFALL_MEDIUM_RAIN     = 0.50;
-    private float SCENARIO_RAINFALL_HEAVY_RAIN      = 1.00;
+		m_Sunrise_Jan = 7;
+		m_Sunset_Jan = 16;
+		m_Sunrise_Jul = 5;
+		m_Sunset_Jul = 20;
 
-    private float SCENARIO_VOLFOG_CLEAR             = 0.00;
-    private float SCENARIO_VOLFOG_FOGGY             = 0.30;
-    private float SCENARIO_VOLFOG_LIGHT_RAIN        = 0.005;
-    private float SCENARIO_VOLFOG_MEDIUM_RAIN       = 0.01;
-    private float SCENARIO_VOLFOG_HEAVY_RAIN        = 0.02;
+		m_MinTemps = { 5, 6, 8, 11, 15, 19, 22, 21, 18, 14, 10, 7 };
+		m_MaxTemps = { 12, 14, 16, 19, 23, 27, 30, 29, 25, 20, 16, 13 };
 
-    protected EModdedWeatherScenario m_CurrentScenario = EModdedWeatherScenario.CLEAR;
+		int tempIdx;
+		if (CfgGameplayHandler.GetEnvironmentMinTemps() && CfgGameplayHandler.GetEnvironmentMinTemps().Count() == 12)
+		{
+			for (tempIdx = 0; tempIdx < CfgGameplayHandler.GetEnvironmentMinTemps().Count(); tempIdx++)
+			{
+				m_MinTemps[tempIdx] = CfgGameplayHandler.GetEnvironmentMinTemps().Get(tempIdx);
+			}
+		}
+		if (CfgGameplayHandler.GetEnvironmentMaxTemps() && CfgGameplayHandler.GetEnvironmentMaxTemps().Count() == 12)
+		{
+			for (tempIdx = 0; tempIdx < CfgGameplayHandler.GetEnvironmentMaxTemps().Count(); tempIdx++)
+			{
+				m_MaxTemps[tempIdx] = CfgGameplayHandler.GetEnvironmentMaxTemps().Get(tempIdx);
+			}
+		}
 
-    private const int MIN_TRANSITION_TIME = 300;
-    private const int MAX_TRANSITION_TIME = 600;
-    private const int MIN_LOCKED_TIME     = 400;
-    private const int MAX_LOCKED_TIME     = 900;
+		m_WorldWindCoef = 0.4;
+		m_CloudsTemperatureEffectModifier = 2.0;
+		m_TemperaturePerHeightReductionModifier = 0.012;
+		m_UniversalTemperatureSourceCapModifier = -1.0;		
+		
+		if (GetGame().IsServer() || !GetGame().IsMultiplayer())
+		{			
+			m_Weather.GetFog().SetLimits(0, 0);
+			m_Weather.GetFog().Set(0, 0, 0);
+			
+			m_Weather.SetDynVolFogHeightBias(m_WeatherDefaultSettings.m_DefaultHeigthBias);
+		
+			if (GetGame().IsMultiplayer())
+			{
+				float startingOvercast = Math.RandomFloat(0.1, 0.5);
+				m_Weather.GetOvercast().Set(startingOvercast, 0, 5);
+			}
+		}
+	}	
+	
+	override void SetupWeatherSettings()
+	{
+		super.SetupWeatherSettings();
+		
+		m_WeatherDefaultSettings.m_ClearWeatherChance = 70;
+		m_WeatherDefaultSettings.m_BadWeatherChance = 90; 
+		
+		m_WeatherDefaultSettings.m_StormThreshold		 	= 0.9;
+		m_WeatherDefaultSettings.m_GlobalSuddenChance	 	= 0;
+		m_WeatherDefaultSettings.m_BadWeatherSuddenChance 	= 0;
 
-    private int GetRandomTransitionTime() { return Math.RandomIntInclusive(MIN_TRANSITION_TIME, MAX_TRANSITION_TIME); }
-    private int GetRandomLockedTime()     { return Math.RandomIntInclusive(MIN_LOCKED_TIME,   MAX_LOCKED_TIME);     }
-
-    override void Init()
-    {
-        super.Init();
-
-        m_Sunrise_Jan = 7;  m_Sunset_Jan = 16;
-        m_Sunrise_Jul = 5;  m_Sunset_Jul = 20;
-
-        int i;
-		m_MinTemps = {
-             1,  2,  4,  9, 15, 19, 28, 27, 26, 13,  9,  4
-        };
-        m_MaxTemps = {
-             6,  8, 10, 17, 24, 27, 33, 30, 29, 18, 12,  8
-        };
-        if (CfgGameplayHandler.GetEnvironmentMinTemps() && CfgGameplayHandler.GetEnvironmentMinTemps().Count() == 12)
-            for (i=0;i<12;i++) m_MinTemps[i] = CfgGameplayHandler.GetEnvironmentMinTemps().Get(i);
-        if (CfgGameplayHandler.GetEnvironmentMaxTemps() && CfgGameplayHandler.GetEnvironmentMaxTemps().Count() == 12)
-            for (i=0;i<12;i++) m_MaxTemps[i] = CfgGameplayHandler.GetEnvironmentMaxTemps().Get(i);
-
-        if (GetGame().IsServer() || !GetGame().IsMultiplayer())
+		m_WeatherDefaultSettings.m_DefaultHeigthBias 		= 0;
+	}
+	
+	override bool WeatherOnBeforeChange(EWeatherPhenomenon type, float actual, float change, float time)
+	{		
+		float timeMultiplier = 1.0;
+        if (m_DebugFastWeather == 1)
         {
-            m_Weather.SetDynVolFogHeightDensity(1, 60);
-            m_Weather.SetDynVolFogHeightBias(0, 0);
-            m_Weather.GetFog().Set(0, 0, 1000);
-            m_Weather.GetFog().SetLimits(0, 0);
-            m_Weather.GetOvercast().SetLimits(0.07, 1);
-
-            if (GetGame().IsMultiplayer())
-                m_Weather.GetOvercast().Set(Math.RandomFloat(0, 0.75), 0, 5);
+            timeMultiplier = 0.05;
         }
 
-        m_WorldWindCoef                       = 0.55;
-        m_CloudsTemperatureEffectModifier     = 2.0;
-        m_TemperaturePerHeightReductionModifier = 0.03;
-        m_TemperatureInsideBuildingsModifier  = -5.0;
-        m_WaterContactTemperatureModifier     = 10.0;
-        
-        m_CurrentScenario = ChooseModdedWeatherScenario();
-    }
+		float phmnTime 	= 5;
+		float phmnLength = 10;
+		float phmnValue = 0;
 
-    EModdedWeatherScenario ChooseModdedWeatherScenario()
-    {
-        float weightClear  = 0;
-        float weightFoggy  = 0;
-        float weightLight  = 0;
-        float weightMedium = 0;
-        float weightHeavy  = 0;
+		m_Weather.SetStorm(1.0, m_WeatherDefaultSettings.m_StormThreshold, 45);
+		m_Weather.SetRainThresholds(m_WeatherDefaultSettings.m_RainThreshold, 1.0, 60);
+		m_Weather.SetWindMaximumSpeed(20);
+		
+		if (m_Weather.GetDynVolFogHeightBias() != 0)
+		{
+			m_Weather.SetDynVolFogHeightBias(0);
+		}
 
-        switch (m_CurrentScenario)
-        {
-            case EModdedWeatherScenario.CLEAR:
-                weightClear  = 60;
-                weightFoggy  = 10;
-                weightLight  = 15;
-                weightMedium = 10;
-                weightHeavy  = 5;
-                break;
+		switch (type)
+		{
+			case EWeatherPhenomenon.OVERCAST:			
+			{
+				float windDirection, windMag;
 
-            case EModdedWeatherScenario.FOGGY:
-                weightClear  = 80;
-                weightFoggy  = 10;
-                weightLight  = 5;
-                weightMedium = 3;
-                weightHeavy  = 2;
-                break;
+				phmnValue = Math.RandomFloatInclusive(0.2, 0.7);
+				phmnTime = Math.RandomIntInclusive(m_WeatherDefaultSettings.m_OvercastMinTime, m_WeatherDefaultSettings.m_OvercastMaxTime) * timeMultiplier;
+				phmnLength = Math.RandomIntInclusive(m_WeatherDefaultSettings.m_OvercastMinLength, m_WeatherDefaultSettings.m_OvercastMaxLength) * timeMultiplier;				
+			
+				m_Chance = Math.RandomIntInclusive(0, 100);
+				
+				if (m_LastWeather == WorldDataWeatherConstants.CLEAR_WEATHER)
+				{
+					m_ClearWeatherChance -= (m_StepValue * m_SameWeatherCnt);
+				}
+				else if (m_LastWeather == WorldDataWeatherConstants.CLOUDY_WEATHER)
+				{
+					m_ClearWeatherChance += (m_StepValue * m_SameWeatherCnt);
+				}
+				else if (m_LastWeather == WorldDataWeatherConstants.BAD_WEATHER)
+				{
+					m_ClearWeatherChance += m_StepValue;
+					m_BadWeatherChance += ((m_StepValue * m_SameWeatherCnt) + m_StepValue);
+				}
+			
+				if (m_Chance < m_ClearWeatherChance)
+				{
+					m_ChoosenWeather = WorldDataWeatherConstants.CLEAR_WEATHER;
+					if (m_LastWeather == WorldDataWeatherConstants.CLEAR_WEATHER)
+						m_SameWeatherCnt++;
+				}
+				else if (m_Chance > m_BadWeatherChance)
+				{
+					m_ChoosenWeather = WorldDataWeatherConstants.BAD_WEATHER;
+					if (m_LastWeather == WorldDataWeatherConstants.BAD_WEATHER)
+						m_SameWeatherCnt++;
+				}
+				else
+				{
+					m_ChoosenWeather = WorldDataWeatherConstants.CLOUDY_WEATHER;
+					if (m_LastWeather == WorldDataWeatherConstants.CLOUDY_WEATHER)
+						m_SameWeatherCnt++;
+				}
 
-            case EModdedWeatherScenario.LIGHT_RAIN:
-                weightClear  = 40;
-                weightFoggy  = 5;
-                weightLight  = 20;
-                weightMedium = 25;
-                weightHeavy  = 10;
-                break;
+				if (m_ChoosenWeather != m_LastWeather)
+					m_SameWeatherCnt = 0;
 
-            case EModdedWeatherScenario.MEDIUM_RAIN:
-                weightClear  = 45;
-                weightFoggy  = 5;
-                weightLight  = 25;
-                weightMedium = 15;
-                weightHeavy  = 10;
-                break;
+				m_ClearWeatherChance = m_WeatherDefaultSettings.m_ClearWeatherChance;
+				m_BadWeatherChance = m_WeatherDefaultSettings.m_BadWeatherChance;
+		
+				if (m_ChoosenWeather == WorldDataWeatherConstants.CLEAR_WEATHER)
+				{
+					m_LastWeather = WorldDataWeatherConstants.CLEAR_WEATHER;
+					phmnValue = Math.RandomFloatInclusive(0.0, 0.25);
+				}
+				else if (m_ChoosenWeather == WorldDataWeatherConstants.CLOUDY_WEATHER)
+				{
+					m_LastWeather = WorldDataWeatherConstants.CLOUDY_WEATHER;
+					phmnValue = Math.RandomFloatInclusive(0.25, 0.6);
+				}
+				else if (m_ChoosenWeather == WorldDataWeatherConstants.BAD_WEATHER)
+				{
+					m_LastWeather = WorldDataWeatherConstants.BAD_WEATHER;
+					phmnValue = Math.RandomFloatInclusive(0.6, 1.0);
+				}
 
-            case EModdedWeatherScenario.HEAVY_RAIN:
-                weightClear  = 30;
-                weightFoggy  = 5;
-                weightLight  = 20;
-                weightMedium = 35;
-                weightHeavy  = 10;
-                break;
-        }
+				m_Weather.GetOvercast().Set(phmnValue, phmnTime, phmnLength);
+				
+				if (phmnValue < m_WeatherDefaultSettings.m_RainThreshold)
+				{
+					float rainStopTime = phmnTime / 3;
+					if (rainStopTime < 15) rainStopTime = 15;
+					m_Weather.GetRain().Set(0, rainStopTime, 0);
+				}
+				
+				CalculateWind(m_ChoosenWeather, false, windMag, windDirection);
+				m_Weather.GetWindMagnitude().Set(windMag, phmnTime * WIND_MAGNITUDE_TIME_MULTIPLIER, phmnTime * (1 - WIND_MAGNITUDE_TIME_MULTIPLIER));
+				m_Weather.GetWindDirection().Set(windDirection, phmnTime * WIND_DIRECTION_TIME_MULTIPLIER, phmnTime - (phmnTime * WIND_DIRECTION_TIME_MULTIPLIER) + phmnLength + 1000);
+				
+				if (m_IsFogEventActive)
+				{
+					m_Weather.SetDynVolFogDistanceDensity(0, phmnTime / 2);
+					m_IsFogEventActive = false;
+				}
+				else if (phmnValue < m_WeatherDefaultSettings.m_RainThreshold)
+				{
+					int fogChance = Math.RandomIntInclusive(0, 100);
+					if (fogChance < 10)
+					{
+						float exponent = 4.0; 
+						float minFog = 0.05;
+						float maxFog = 1.0;
 
-        float total = weightClear + weightFoggy + weightLight + weightMedium + weightHeavy;
-        float roll  = Math.RandomFloatInclusive(0, total);
+						float randomBase = Math.RandomFloat01(); 
+						float biasedRandom = Math.Pow(randomBase, exponent);
+						float fogValue = minFog + biasedRandom * (maxFog - minFog);
 
-        if (roll < weightClear)  return EModdedWeatherScenario.CLEAR;
-        roll -= weightClear;
-        if (roll < weightFoggy)  return EModdedWeatherScenario.FOGGY;
-        roll -= weightFoggy;
+						m_Weather.SetDynVolFogDistanceDensity(fogValue, phmnTime);
+						m_IsFogEventActive = true;
+					}
+				}
+				return true;
+			}
+			
+			case EWeatherPhenomenon.RAIN:
+			{
+				float actualOvercast = m_Weather.GetOvercast().GetActual();
+				
+				m_Chance = Math.RandomIntInclusive(0, 100);
+				phmnValue = 0.2;
+				phmnTime = 90 * timeMultiplier;
+				phmnLength = 0;
+			
+				if (actualOvercast <= m_WeatherDefaultSettings.m_RainThreshold)
+				{
+					phmnValue = 0;
+				}
+				else if (actualOvercast > m_WeatherDefaultSettings.m_StormThreshold)
+				{
+					phmnValue = Math.RandomFloatInclusive(0.8, 1.0);
+				}
+				else if (actualOvercast < 0.75)
+				{
+					if (m_Chance < 30) { phmnValue = Math.RandomFloatInclusive(0.1, 0.3); }
+					else if (m_Chance < 60) { phmnValue = Math.RandomFloatInclusive(0.2, 0.5); }
+					else if (m_Chance < 80) { phmnValue = Math.RandomFloatInclusive(0.0, 0.2); }
+					else { phmnValue = 0; }
+				}
+				else
+				{
+					if (m_Chance < 25) { phmnValue = Math.RandomFloatInclusive(0.5, 0.7); }
+					else if (m_Chance < 50) { phmnValue = Math.RandomFloatInclusive(0.2, 0.4); }
+					else if (m_Chance < 75) { phmnValue = Math.RandomFloatInclusive(0.4, 0.6); }
+					else { phmnValue = 0; }
+				}
+				
+				if (phmnValue == 0)
+				{
+					phmnLength = m_WeatherDefaultSettings.m_RainLengthMin * timeMultiplier;
+				}
+		
+				m_Weather.GetRain().Set(phmnValue, phmnTime, phmnLength);
+				
+				float fogDensity = Math.Pow(phmnValue, 3) * 0.6;
+				m_Weather.SetDynVolFogDistanceDensity(fogDensity, phmnTime);
 
-        if (roll < weightLight)  return EModdedWeatherScenario.LIGHT_RAIN;
-        roll -= weightLight;
-        if (roll < weightMedium) return EModdedWeatherScenario.MEDIUM_RAIN;
-        return EModdedWeatherScenario.HEAVY_RAIN;
-    }
+				return true;
+			}
+	
+			case EWeatherPhenomenon.FOG:
+			{
+				m_Weather.GetFog().Set(0, 0, 0);
+				return true;
+			}
+	
+			case EWeatherPhenomenon.WIND_MAGNITUDE:
+			{
+				phmnTime = Math.RandomInt(m_WeatherDefaultSettings.m_RainTimeMin, m_WeatherDefaultSettings.m_RainTimeMax) * timeMultiplier;
+				m_Weather.GetWindMagnitude().Set(m_Weather.GetWindMagnitude().GetActual() * 0.75, phmnTime, m_WeatherDefaultSettings.m_OvercastMaxLength * timeMultiplier);
+				return true;
+			}
+		}
 
-    float RandomizeValue(float value)
-    {
-        float min = Math.Max(value * 0.9, 0.0);
-        float max = Math.Min(value * 1.1, 1.0);
-        return Math.RandomFloatInclusive(min, max);
-    }
+		return false;
+	}
+	
+	protected override void CalculateWind(int newWeather, bool suddenChange, out float magnitude, out float direction)
+	{
+		magnitude = 5;
+		direction = 0;		
+		
+		float windChance = Math.RandomIntInclusive(0, 100);
+		
+		if (newWeather == WorldDataWeatherConstants.CLEAR_WEATHER)
+		{
+			if (windChance < 30) { magnitude = Math.RandomFloatInclusive(6, 10); direction = Math.RandomFloatInclusive(-1.0, -0.5); }
+			else if (windChance < 75) { magnitude = Math.RandomFloatInclusive(8, 12); direction = Math.RandomFloatInclusive(-1.3, -0.9); }
+			else { magnitude = Math.RandomFloatInclusive(4, 6); direction = Math.RandomFloatInclusive(-0.6, 0.0); }
+		}		
+		else if (newWeather == WorldDataWeatherConstants.CLOUDY_WEATHER)
+		{			
+			if (windChance < 45) { magnitude = Math.RandomFloatInclusive(6, 10); direction = Math.RandomFloatInclusive(-3.14, -2.4); }
+			else if (windChance < 90) { magnitude = Math.RandomFloatInclusive(8, 12); direction = Math.RandomFloatInclusive(-2.6, -2.0); }
+			else { magnitude = Math.RandomFloatInclusive(10, 14); direction = Math.RandomFloatInclusive(-2.2, -1.4); }
+		}		
+		else
+		{
+			if (suddenChange || m_Weather.GetOvercast().GetActual() > m_WeatherDefaultSettings.m_StormThreshold || m_Weather.GetOvercast().GetForecast() - m_Weather.GetOvercast().GetActual() >= 0.4)
+			{
+				magnitude = Math.RandomFloatInclusive(14, 17);
+				direction = Math.RandomFloatInclusive(0.9, 1.45);
+			}
+			else if (windChance < 45) { magnitude = Math.RandomFloatInclusive(9, 12); direction = Math.RandomFloatInclusive(1.45, 1.7); }
+			else if (windChance < 90) { magnitude = Math.RandomFloatInclusive(7, 10); direction = Math.RandomFloatInclusive(1.6, 2.0); }
+			else { magnitude = Math.RandomFloatInclusive(4, 8); direction = Math.RandomFloatInclusive(1.9, 2.2); }			
+		}
+	}
+	
+	protected override void CalculateVolFog(float lerpValue, float windMagnitude, float changeTime)
+	{
 
-    bool IsRainScenario(EModdedWeatherScenario s)
-    { 
-        return (s == EModdedWeatherScenario.LIGHT_RAIN || s == EModdedWeatherScenario.MEDIUM_RAIN || s == EModdedWeatherScenario.HEAVY_RAIN); 
-    }
-
-    override bool WeatherOnBeforeChange(EWeatherPhenomenon type, float actual, float change, float time)
-    {
-        if (type != EWeatherPhenomenon.OVERCAST) return false;
-
-        m_CurrentScenario = ChooseModdedWeatherScenario();
-
-        float targetOvercast;
-        float targetRainfall = 0.0;
-        float targetVolFog   = 0.0;
-
-        switch (m_CurrentScenario)
-        {
-            case EModdedWeatherScenario.CLEAR:
-                targetOvercast = RandomizeValue(SCENARIO_OVERCAST_CLEAR);
-                targetVolFog   = SCENARIO_VOLFOG_CLEAR;
-                break;
-            case EModdedWeatherScenario.FOGGY:
-                targetOvercast = RandomizeValue(SCENARIO_OVERCAST_FOGGY);
-                targetVolFog   = RandomizeValue(SCENARIO_VOLFOG_FOGGY);
-                break;
-            case EModdedWeatherScenario.LIGHT_RAIN:
-                targetOvercast = RandomizeValue(SCENARIO_OVERCAST_LIGHT_RAIN);
-                targetRainfall = RandomizeValue(SCENARIO_RAINFALL_LIGHT_RAIN);
-                targetVolFog   = RandomizeValue(SCENARIO_VOLFOG_LIGHT_RAIN);
-                break;
-            case EModdedWeatherScenario.MEDIUM_RAIN:
-                targetOvercast = RandomizeValue(SCENARIO_OVERCAST_MEDIUM_RAIN);
-                targetRainfall = RandomizeValue(SCENARIO_RAINFALL_MEDIUM_RAIN);
-                targetVolFog   = RandomizeValue(SCENARIO_VOLFOG_MEDIUM_RAIN);
-                break;
-            case EModdedWeatherScenario.HEAVY_RAIN:
-                targetOvercast = SCENARIO_OVERCAST_HEAVY_RAIN;
-                targetRainfall = SCENARIO_RAINFALL_HEAVY_RAIN;
-                targetVolFog   = RandomizeValue(SCENARIO_VOLFOG_HEAVY_RAIN);
-                break;
-        }
-
-        int transitionTime = GetRandomTransitionTime();
-        int lockedTime     = GetRandomLockedTime();
-
-        m_Weather.GetOvercast().Set(targetOvercast, transitionTime, lockedTime);
-        m_Weather.SetDynVolFogDistanceDensity(targetVolFog, transitionTime);
-        m_Weather.SetDynVolFogHeightBias(0, 0);
-        m_Weather.SetDynVolFogHeightDensity(1, 0);
-        m_Weather.GetSnowfall().Set(0.0, 0, 0);
-
-        if (IsRainScenario(m_CurrentScenario))
-        {
-            m_Weather.GetRain().Set(targetRainfall, transitionTime, transitionTime);
-            m_Weather.GetRain().SetLimits(0.0, 1.0);
-        }
-        else
-        {
-            m_Weather.GetRain().Set(0.0, 0, 0);
-            m_Weather.GetRain().SetLimits(0.0, 0.0);
-        }
-
-        float windMag, windDir;
-        int   phmnTime   = transitionTime / 5;
-        int   phmnLength = lockedTime     / 5;
-
-        CalculateWind(-1, false, windMag, windDir);
-        m_Weather.GetWindMagnitude().Set(windMag, phmnTime, phmnLength);
-        m_Weather.GetWindDirection().Set(windDir, phmnTime, phmnLength + 1000);
-
-        return true;
-    }
-
-    override void CalculateWind(int newWeather, bool suddenChange, out float magnitude, out float direction)
-    {
-        magnitude = 1.0;
-        direction = 0.0;
-
-        float windChance = Math.RandomIntInclusive(0, 100);
-
-        switch (m_CurrentScenario)
-        {
-            case EModdedWeatherScenario.CLEAR:
-                if (windChance < 65)      { magnitude = Math.RandomFloatInclusive(0, 3);  direction = Math.RandomFloatInclusive(-1.0, -0.5); }
-                else if (windChance < 90) { magnitude = Math.RandomFloatInclusive(3, 8);  direction = Math.RandomFloatInclusive(-1.3, -0.9); }
-                else                      { magnitude = Math.RandomFloatInclusive(8, 20); direction = Math.RandomFloatInclusive(-0.6,  0.0); }
-                break;
-            case EModdedWeatherScenario.FOGGY:
-                if (windChance < 50)      { magnitude = Math.RandomFloatInclusive(0, 1);  direction = Math.RandomFloatInclusive(-3.14, -2.4); }
-                else                      { magnitude = Math.RandomFloatInclusive(0, 2);  direction = Math.RandomFloatInclusive(-2.2, -1.4); }
-                break;
-            case EModdedWeatherScenario.LIGHT_RAIN: case EModdedWeatherScenario.MEDIUM_RAIN:
-                if (windChance < 70)      { magnitude = Math.RandomFloatInclusive(0, 4);   direction = Math.RandomFloatInclusive(0.5, 1.0); }
-                else if (windChance < 95) { magnitude = Math.RandomFloatInclusive(4, 10);  direction = Math.RandomFloatInclusive(1.0, 1.4); }
-                else                      { magnitude = Math.RandomFloatInclusive(10, 20); direction = Math.RandomFloatInclusive(1.4, 1.7); }
-                break;
-            case EModdedWeatherScenario.HEAVY_RAIN:
-                magnitude = Math.RandomFloatInclusive(10, 20);
-                direction = Math.RandomFloatInclusive(1.2, 2.2);
-                break;
-        }
-    }
-
-    override protected void CalculateVolFog(float lerpValue, float windMagnitude, float changeTime)
-    {
-
-    }
+	}
 }
