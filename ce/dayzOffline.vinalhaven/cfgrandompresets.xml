@@ -57,6 +57,12 @@
 				<item name="TacticalBaconCan" chance="0.1" />
 				<item name="Canteen" chance="0.1" />
 		</cargo>
+		<cargo chance="0.25" name="containerKey">
+				<item name="ShippingContainerKeys_Blue" chance="0.25" />
+				<item name="ShippingContainerKeys_Orange" chance="0.25" />
+				<item name="ShippingContainerKeys_Yellow" chance="0.25" />
+				<item name="ShippingContainerKeys_Red" chance="0.25" />
+		</cargo>
 		<cargo chance="0.15" name="toolsHermit">
 				<item name="WeaponCleaningKit" chance="0.10" />
 				<item name="Matchbox" chance="0.15" />

@@ -53,7 +53,7 @@
 	},
 	"WorldsData":
 	{
-		"lightingConfig": 0,
+		"lightingConfig": 1,
 		"objectSpawnersArr": [],
 		"environmentMinTemps": [1, 2, 4, 9, 15, 19, 28, 27, 26, 13, 9, 4],
 		"environmentMaxTemps": [6, 8, 10, 17, 24, 27, 33, 30, 29, 18, 12, 8],

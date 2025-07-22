@@ -1314,6 +1314,7 @@
 	</type>
 	<type name="ZmbM_usSoldier_Officer_Desert">
 		<cargo preset="foodArmy" />		
+		<cargo preset="containerKey" />		
 		<attachments preset="headtorches" />
 		<attachments preset="OfficerHatArmy" />
 	</type>
