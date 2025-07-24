@@ -1,6 +1,6 @@
 class CfgPatches
 {
-	class Vinalhaven_DZ
+	class Foxhaven_DZ
 	{
 		requiredAddons[] = {"DZ_Data"};
 	};

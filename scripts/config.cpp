@@ -1,6 +1,6 @@
 class CfgPatches
 {
-	class Vinalhaven_Scripts
+	class Foxhaven_Scripts
 	{
 		units[] = {};
 		weapons[] = {};
@@ -8,13 +8,13 @@ class CfgPatches
 		requiredAddons[] = {
 			"DZ_Data",
 			"DZ_Scripts",
-			"Worlds_Vinalhaven_Data"
+			"Worlds_Foxhaven_Data"
 		};
 	};
 };
 class CfgMods
 {
-	class Vinalhaven_Scripts
+	class Foxhaven_Scripts
 	{
 		hideName = 1;
 		hidePicture = 1;
@@ -33,21 +33,21 @@ class CfgMods
 			{
 				value = "";
 				files[] = {
-					"Vinalhaven/scripts/3_game"
+					"Foxhaven/scripts/3_game"
 				};
 			};
 			class worldScriptModule
 			{
 				value = "";
 				files[] = {
-					"Vinalhaven/scripts/4_world"
+					"Foxhaven/scripts/4_world"
 				};
 			};
 			class missionScriptModule
 			{
 				value = "";
 				files[] = {
-					"Vinalhaven/scripts/5_mission"
+					"Foxhaven/scripts/5_mission"
 				};
 			};
 		};

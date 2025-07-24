@@ -1,4 +1,4 @@
-class VinalhavenData extends WorldData
+class FoxhavenData extends WorldData
 {
 	protected float m_DebugFastWeather = 0;
 	protected bool m_IsFogEventActive = false;

@@ -13,12 +13,12 @@ modded class MissionBase
 
 		switch (worldName)
 		{
-			case "vinalhaven":
+			case "foxhaven":
 				if (GetGame().IsServer())
 				{
-					Print("[Foxhaven] Initializing Vinalhaven world data");
+					Print("[Foxhaven] Initializing Foxhaven world data");
 				}
-				m_WorldData = new VinalhavenData();
+				m_WorldData = new FoxhavenData();
 				m_DynamicMusicPlayerRegistry = new DynamicMusicPlayerRegistry();
 				break;
 

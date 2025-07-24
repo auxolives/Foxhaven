@@ -1,9 +1,9 @@
 class CfgPatches
 {
-	class DZ_Surfaces_Vinalhaven
+	class DZ_Surfaces_Foxhaven
 	{
 		requiredAddons[] = {
-			"Worlds_Vinalhaven_Data",
+			"Worlds_Foxhaven_Data",
 			"DZ_Surfaces_Bliss",
 			"DZ_Surfaces_Sakhal"
 		};

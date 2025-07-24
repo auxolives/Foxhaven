@@ -83,7 +83,7 @@
 		<pos x="8459.99" z="12303.87"/>
 	</event>
 	<event name="StaticHeliCrash">
-		<zone smin="3" smax="6" dmin="0" dmax="0" r="45"/>
+		<zone smin="6" smax="10" dmin="0" dmax="0" r="30"/>
 		<pos x="9887.74" z="12885.1" a="-1"/>
 		<pos x="9559.44" z="10955.6" a="-1"/>
 		<pos x="10464.3" z="12724" a="-1"/>
@@ -98,7 +98,7 @@
 		<pos x="7964.67" z="14011" a="0"/>
 	</event>
 	<event name="StaticPoliceCar">
-		<zone smin="1" smax="2" dmin="1" dmax="2" r="45"/>
+		<zone smin="0" smax="0" dmin="2" dmax="4" r="30"/>
 		<pos x="9590.29" z="10564.6" a="325"/>
 		<pos x="8812.13" z="13682.4" a="125"/>
 		<pos x="9284.75" z="11741.3" a="60"/>
@@ -110,7 +110,7 @@
 		<pos x="9692.07" z="10583.7" a="220"/>
 	</event>
 	<event name="StaticAmbulance">
-		<zone smin="1" smax="2" dmin="1" dmax="2" r="45"/>
+		<zone smin="0" smax="0" dmin="2" dmax="3" r="30"/>
 		<pos x="9749.21" y="7.27002" z="10643.3" a="288.6836"/>
 		<pos x="9754.49" y="7.27002" z="10639.1" a="182.154"/>
 		<pos x="9741.59" y="7.27" z="10656.6" a="182.154"/>
@@ -155,12 +155,12 @@
 		<pos x="10388.6" z="11136.3" a="261.9516"/>
 	</event>
 	<event name="StaticMilitaryConvoy">
-		<zone smin="2" smax="5" dmin="5" dmax="10" r="50" />
+		<zone smin="3" smax="5" dmin="0" dmax="0" r="30" />
         <pos x="9587.8141" z="10465.8118" a="0" y="6.8241" group="Convoys_01"/>
         <pos x="10096.3667" z="12743.4278" a="0" y="32.2378" group="Convoys_02"/>
 	</event>
 	<event name="StaticPoliceSituation">
-	<zone smin="1" smax="2" dmin="1" dmax="2" r="50" />
+	<zone smin="2" smax="4" dmin="0" dmax="0" r="30" />
         <pos x="9657.6745" z="12376.3546" a="0" y="34.4939" group="Police_01"/>
         <pos x="10269.7485" z="12310.7970" a="0" y="22.3904" group="Police_02"/>
         <pos x="8754.6976" z="13156.3920" a="0" y="14.0633" group="Police_03"/>
