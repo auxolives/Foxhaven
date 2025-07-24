@@ -1,3 +1,29 @@
+class WeatherSettings
+{
+    int ClearWeatherChance_Percent;
+    int CloudyWeatherChance_Percent;
+    int BadWeatherChance_Percent;
+    float StormThreshold;
+    
+    bool IsFogEnabled;
+    int FogChance;
+    float MinFog;
+    float MaxFog;
+
+    void WeatherSettings()
+    {
+        ClearWeatherChance_Percent = 40;
+        CloudyWeatherChance_Percent = 35;
+        BadWeatherChance_Percent = 25;
+        StormThreshold = 0.9;
+        
+        IsFogEnabled = true;
+        FogChance = 15; // 
+        MinFog = 0.05;
+        MaxFog = 1.0;
+    }
+}
+
 class PlayerConditionsSettings
 {
     bool isPenaltyEnabled;
@@ -46,13 +72,16 @@ class MovementPenaltiesSettings
 
 class FoxhavenConfigData
 {
+    string ConfigVersion;
     bool isHeatBufferEnabled;
     ref MovementPenaltiesSettings movementPenaltiesSettings;
+    ref WeatherSettings weatherSettings;
 
     void FoxhavenConfigData()
     {
         isHeatBufferEnabled = false;
         movementPenaltiesSettings = new MovementPenaltiesSettings();
+        weatherSettings = new WeatherSettings();
     }
 }
 
@@ -60,6 +89,7 @@ class FoxhavenConfig
 {
     private static const string MOD_FOLDER = "$profile:Foxhaven/";
     private static const string CONFIG_PATH = MOD_FOLDER + "Config.json";
+    private static const string CURRENT_CONFIG_VERSION = "2";
 
     private static ref FoxhavenConfig m_Instance;
     private ref FoxhavenConfigData m_SettingsData;
@@ -76,7 +106,7 @@ class FoxhavenConfig
         m_SettingsData = new FoxhavenConfigData();
     }
     
-	void Load()
+    void Load()
     {
         if (!GetGame().IsServer())
             return;
@@ -100,14 +130,18 @@ class FoxhavenConfig
                 if (serializer.ReadFromString(m_SettingsData, fileContent, errorMessage))
                 {
                     Print("[Foxhaven] Config.json loaded successfully.");
+
+                    if (m_SettingsData.ConfigVersion != CURRENT_CONFIG_VERSION)
+                    {
+                        Print("[Foxhaven] !!! WARNING: Your Config.json is outdated or missing values.");
+                        Print("[Foxhaven] !!! It is recommended to delete the old config to allow a new one to be generated.");
+                        Print("[Foxhaven] !!! Using default values for any missing settings.");
+                    }
                 }
                 else
                 {
                     Print("[Foxhaven] !!! Error parsing Foxhaven/Config.json: " + errorMessage);
                     Print("[Foxhaven] !!! Using default values.");
-                    Print("[Foxhaven] !!! Please check your config for syntax errors.");
-                    Print("[Foxhaven] !!! Please check github for update to Foxhaven/Config.json.");
-                    Print("[Foxhaven] !!! Backup and delete to regenerate a clean Foxhaven/Config.json.");
                 }
             }
         }
@@ -117,7 +151,7 @@ class FoxhavenConfig
             CreateDefaultConfig();
         }
     }
-	
+    
     private void CreateDefaultConfig()
     {
         if (!FileExist(MOD_FOLDER))
@@ -125,6 +159,9 @@ class FoxhavenConfig
             MakeDirectory(MOD_FOLDER);
         }
         
+        m_SettingsData = new FoxhavenConfigData();
+        m_SettingsData.ConfigVersion = CURRENT_CONFIG_VERSION;
+
         JsonSerializer serializer = new JsonSerializer();
         string fileContent;
         serializer.WriteToString(m_SettingsData, true, fileContent);
@@ -145,5 +182,10 @@ class FoxhavenConfig
     MovementPenaltiesSettings GetMovementPenaltiesSettings()
     {
         return m_SettingsData.movementPenaltiesSettings;
+    }
+
+    WeatherSettings GetWeatherSettings()
+    {
+        return m_SettingsData.weatherSettings;
     }
 }
