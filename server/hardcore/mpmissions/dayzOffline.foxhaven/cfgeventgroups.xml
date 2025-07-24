@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <eventgroupdef>
     <group name="Convoys_01">
+        <!-- <pos x="9587.8141" z="10465.8118" a="0" y="6.8241" group="Convoys_01"/> -->
         <child type="Land_Wreck_offroad02_aban1_DE" x="-36.8141" z="-32.5118" a="256.1530" deloot="1" lootmax="3" lootmin="2" />
         <child type="StaticObj_Decal_damage_long4_DE" x="-31.8841" z="-29.8118" a="245.8840" spawnsecondary="false" />
         <child type="StaticObj_Wreck_BRDM_DE" x="47.4659" z="42.0882" a="221.3460" deloot="1" lootmax="3" lootmin="2" />
@@ -20,6 +21,7 @@
         <child type="StaticObj_Wreck_BMP2_DE" x="48.5459" z="54.7882" a="177.0110" deloot="1" lootmax="3" lootmin="2" />
     </group>
     <group name="Convoys_02">
+        <!-- <pos x="10096.3667" z="12743.4278" a="0" y="32.2378" group="Convoys_02"/> -->
         <child type="Land_Wreck_offroad02_aban1_DE" x="-4.3667" z="-2.7278" a="300.4096" deloot="1" lootmax="3" lootmin="2" />
         <child type="Land_Wreck_offroad02_aban1_DE" x="3.4333" z="-8.6278" a="104.1260" deloot="1" lootmax="3" lootmin="2" />
         <child type="StaticObj_Decal_damage_long4_DE" x="-6.5667" z="-2.0278" a="0.0000" spawnsecondary="false" />
@@ -40,6 +42,7 @@
         <child type="StaticObj_Wreck_Decal_Small2_DE" x="13.9333" z="10.2722" a="45.2652" spawnsecondary="false" />
     </group>
     <group name="Police_01">
+        <!-- <pos x="9657.6745" z="12376.3546" a="0" y="34.4939" group="Police_01"/> -->
         <child type="Land_Wreck_sed02_aban2_red_DE" x="-17.4545" z="8.9454" a="289.7517" deloot="1" lootmax="2" lootmin="1" />
         <child type="StaticObj_Roadblock_Wood_Long_DE" x="-2.0145" z="-3.4546" a="244.7290" spawnsecondary="false" />
         <child type="StaticObj_Roadblock_Wood_Long_DE" x="6.2655" z="7.3454" a="221.3660" spawnsecondary="false" />
@@ -75,6 +78,7 @@
         <child type="Land_Wreck_Ikarus_DE" x="12.3555" z="13.8454" a="45.0639" deloot="1" lootmax="3" lootmin="2" />
     </group>
     <group name="Police_02">
+        <!-- <pos x="10269.7485" z="12310.7970" a="0" y="22.3904" group="Police_02"/> -->
         <child type="Land_Wreck_sed02_aban2_red_DE" x="4.7515" z="-4.6970" a="161.2820" deloot="1" lootmax="2" lootmin="1" />
         <child type="StaticObj_Roadblock_Wood_Long_DE" x="-1.5485" z="16.5030" a="9.0285" spawnsecondary="false" />
         <child type="StaticObj_Roadblock_Wood_Long_DE" x="2.2515" z="3.1030" a="336.0398" spawnsecondary="false" />
@@ -110,6 +114,7 @@
         <child type="Land_Wreck_Ikarus_DE" x="12.7515" z="-29.8970" a="159.8010" deloot="1" lootmax="3" lootmin="2" />
     </group>
     <group name="Police_03">
+        <!-- <pos x="8754.6976" z="13156.3920" a="0" y="14.0633" group="Police_03"/> -->
         <child type="Land_Wreck_sed01_aban2_wine_DE" x="-2.2676" z="10.7080" a="0.0193" deloot="1" lootmax="2" lootmin="1" />
         <child type="StaticObj_Roadblock_Wood_Long_DE" x="-3.4676" z="-8.8920" a="359.9999" spawnsecondary="false" />
         <child type="StaticObj_Decal_damage_long4_DE" x="-0.4976" z="22.3080" a="0.0000" spawnsecondary="false" />
@@ -137,6 +142,7 @@
         <child type="Land_Wreck_hb02_aban1_red_DE" x="-2.1776" z="23.0080" a="359.9982" deloot="1" lootmax="2" lootmin="1" />
     </group>
     <group name="Police_04">
+        <!-- <pos x="9386.3717" z="11111.9292" a="0" y="15.5623" group="Police_04"/> -->
         <child type="Land_Wreck_sed01_aban2_wine_DE" x="-4.5117" z="-11.6292" a="211.0690" deloot="1" lootmax="2" lootmin="1" />
         <child type="StaticObj_Roadblock_Wood_Long_DE" x="6.9083" z="6.7708" a="211.1480" spawnsecondary="false" />
         <child type="StaticObj_Decal_damage_long4_DE" x="-12.6717" z="-19.7292" a="211.0560" spawnsecondary="false" />
