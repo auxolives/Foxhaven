@@ -1,19 +1,3 @@
-//================================================================
-//  Influenza Agent Refactor
-//================================================================
-//  • DESCRIPTION: This script refactors the Influenza agent to
-//    work correctly when the vanilla HeatBuffer modifier is
-//    disabled via the server-side config. It makes contracting
-//    influenza from cold less sensitive and restores a post-cold
-//    immunity buff to prevent players from getting sick after
-//    they've warmed up.
-//
-//  • MOD COMPATIBILITY: This mod overrides the 'AutoinfectCheck'
-//    method in 'InfluenzaAgent'. Any other mod that also modifies
-//    this specific method will likely conflict. The script uses a
-//    'super' call as a fallback to ensure vanilla behavior when
-//    the feature is disabled in the config.
-//================================================================
 modded class InfluenzaAgent : AgentBase
 {
 	override bool AutoinfectCheck(float deltaT, PlayerBase player)

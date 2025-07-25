@@ -1,20 +1,3 @@
-//================================================================
-//  FOXHAVEN WEATHER
-//================================================================
-//  • DESCRIPTION: This script defines the custom weather behavior
-//    for the Foxhaven map. It extends the base game's 'WorldData'
-//    to implement a unique weather system driven by server-side
-//    configuration. It handles dynamic weather patterns, including
-//    overcast, rain, wind, and fog events, tailored specifically
-//    for the Foxhaven environment.
-//
-//  • MOD COMPATIBILITY: This script creates a new 'FoxhavenData'
-//    class that extends the vanilla 'WorldData'. It overrides
-//    several methods to implement its custom logic. Since this
-//    is a self-contained class for a specific map and does not
-//    use the 'modded' keyword on a vanilla class, it has no risk
-//    of conflict with other mods.
-//================================================================
 class FoxhavenData extends WorldData
 {
     protected float m_DebugFastWeather = 0;
