@@ -1,18 +1,13 @@
-//================================================================
-//  MOD CONFIGURATION
-//================================================================
-//  • DESCRIPTION: This script establishes the configuration
-//    framework for the mod. It defines data structures for all
-//    server-side settings, including weather, movement penalties,
-//    and core gameplay features. It handles loading the config
-//    from 'Config.json' or creating a default file if one is
-//    not found. A singleton pattern is used to ensure global
-//    access to configuration data.
-//
-//  • MOD COMPATIBILITY: This script is self-contained and creates
-//    entirely new classes. It does not override any vanilla game
-//    classes and should not conflict with other mods.
-//================================================================
+class InventorySettings
+{
+    bool isRestrictedBagAccessEnabled;
+
+    void InventorySettings()
+    {
+        isRestrictedBagAccessEnabled = true;
+    }
+}
+
 class WeatherSettings
 {
     int ClearWeatherChance_Percent;
@@ -91,12 +86,14 @@ class FoxhavenConfigData
     bool isHeatBufferEnabled;
     ref MovementPenaltiesSettings movementPenaltiesSettings;
     ref WeatherSettings weatherSettings;
+    ref InventorySettings inventorySettings;
 
     void FoxhavenConfigData()
     {
         isHeatBufferEnabled = false;
         movementPenaltiesSettings = new MovementPenaltiesSettings();
         weatherSettings = new WeatherSettings();
+        inventorySettings = new InventorySettings();
     }
 }
 
@@ -104,10 +101,15 @@ class FoxhavenConfig
 {
     private static const string MOD_FOLDER = "$profile:Foxhaven/";
     private static const string CONFIG_PATH = MOD_FOLDER + "Config.json";
-    private static const string CURRENT_CONFIG_VERSION = "2";
+    private static const string CURRENT_CONFIG_VERSION = "2.1";
 
     private static ref FoxhavenConfig m_Instance;
     private ref FoxhavenConfigData m_SettingsData;
+
+    InventorySettings GetInventorySettings()
+    {
+        return m_SettingsData.inventorySettings;
+    }
 
     static FoxhavenConfig GetInstance()
     {
