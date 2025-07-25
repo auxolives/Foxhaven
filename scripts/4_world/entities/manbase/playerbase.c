@@ -1,3 +1,17 @@
+//================================================================
+//  TERRAIN SLOPE MOVEMENT PENALTY
+//================================================================
+//  • DESCRIPTION: This script calculates the steepness of the
+//    terrain in front of the player. It is intended to be the
+//    foundation for a movement penalty system that slows players
+//    down on steep inclines. It also forces the injury handler
+//    to update more frequently when checking slopes.
+//
+//  • MOD COMPATIBILITY: This mod overrides the 'OnCommandHandlerTick'
+//    method in 'PlayerBase'. Any other mod that also modifies
+//    this method will likely conflict. A 'super' call is used
+//    to ensure base-game and inter-mod compatibility.
+//================================================================
 modded class PlayerBase
 {
     float m_SlopeAngle;

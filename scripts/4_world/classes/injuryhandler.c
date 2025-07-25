@@ -1,3 +1,20 @@
+//================================================================
+//  INJURY ANIMATION HANDLER REFACTOR
+//================================================================
+//  • DESCRIPTION: This script refactors the vanilla injury
+//    animation system to incorporate movement penalties from
+//    player stats (blood, energy, water), cargo weight, and
+//    terrain slope. This makes the player's limp animation
+//    reflect not just their health, but also their exhaustion,
+//    encumbrance, and the steepness of the terrain. It also
+//    mutes the heavy breathing sound with a probability based
+//    on the player's health level when encumbered.
+//
+//  • MOD COMPATIBILITY: This mod overrides the 'CheckValue' method
+//    in 'InjuryAnimationHandler' and will conflict with any other
+//    mod that also modifies this method. It does not use a 'super'
+//    call as it completely replaces the injury calculation logic.
+//================================================================
 modded class InjuryAnimationHandler
 {
     private int ConvertMalusToStages(int m)
@@ -96,8 +113,25 @@ modded class InjuryAnimationHandler
             int load = CalculateLoadPenaltyStages();
             bool mute = false;
             
-            if (statLvl == eInjuryHandlerLevels.PRISTINE && load == 0 && slope > 0 && FoxhavenConfig.GetInstance().GetMovementPenaltiesSettings().terrainSlopeSettings.isPenaltyEnabled) 
-                mute = true;
+            if (slope > 0 || load > 0)
+            {
+                switch (statLvl)
+                {
+                    case eInjuryHandlerLevels.PRISTINE:
+                        mute = true;
+                        break;
+                    
+                    case eInjuryHandlerLevels.WORN:
+                        if (Math.RandomFloatInclusive(0, 1) < 0.66)
+                            mute = true;
+                        break;
+
+                    case eInjuryHandlerLevels.DAMAGED:
+                        if (Math.RandomFloatInclusive(0, 1) < 0.33)
+                            mute = true;
+                        break;
+                }
+            }
 
             if (m_Player && m_Player.m_IsSlopePenaltyActive != mute)
             {
