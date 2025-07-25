@@ -1,9 +1,3 @@
-//================================================================
-//  WORLD DATA INITIALIZATION
-//================================================================
-//  • DESCRIPTION: This script overrides the 'InitialiseWorldData'
-//    method in 'MissionBase' to load Foxhaven.
-////================================================================
 modded class MissionBase
 {
 	override void InitialiseWorldData()
