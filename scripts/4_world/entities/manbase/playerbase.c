@@ -1,17 +1,3 @@
-//================================================================
-//  TERRAIN SLOPE MOVEMENT PENALTY
-//================================================================
-//  • DESCRIPTION: This script calculates the steepness of the
-//    terrain in front of the player. It is intended to be the
-//    foundation for a movement penalty system that slows players
-//    down on steep inclines. It also forces the injury handler
-//    to update more frequently when checking slopes.
-//
-//  • MOD COMPATIBILITY: This mod overrides the 'OnCommandHandlerTick'
-//    method in 'PlayerBase'. Any other mod that also modifies
-//    this method will likely conflict. A 'super' call is used
-//    to ensure base-game and inter-mod compatibility.
-//================================================================
 modded class PlayerBase
 {
     float m_SlopeAngle;
@@ -66,4 +52,27 @@ modded class PlayerBase
         if (m_InjuryHandler)
             m_InjuryHandler.m_TimeSinceLastTick = m_InjuryHandler.VALUE_CHECK_INTERVAL + 1;
     }
+
+	override bool CanEatAndDrink()
+	{
+		EatingAndDrinkingSettings settings = FoxhavenConfig.GetInstance().GetEatingAndDrinkingSettings();
+		if (!settings || !settings.isRestrictionEnabled)
+		{
+			return super.CanEatAndDrink();
+		}
+
+		ItemBase headgear = GetInventory().FindAttachment(InventorySlots.HEADGEAR);
+		if (headgear && !headgear.CanBeEatenOrDrunkThrough(InventorySlots.HEADGEAR))
+		{
+			return false;
+		}
+
+		ItemBase mask = GetInventory().FindAttachment(InventorySlots.MASK);
+		if (mask && !mask.CanBeEatenOrDrunkThrough(InventorySlots.MASK))
+		{
+			return false;
+		}
+
+		return true;
+	}
 }
