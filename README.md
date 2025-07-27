@@ -75,3 +75,11 @@
 - Military Convoy: **2**
 - Police Car: **9**
 - Police Situation: **4**
+
+## License
+
+This project is licensed under the Arma and DayZ Public License – Share Alike (ADPL-SA).
+
+In short, you are free to explore, modify, and re-share this work, but any derivative work must be released under the same license.
+
+Monetization of servers using this map is permitted only with explicit approval from Bohemia Interactive. See the full [LICENSE](LICENSE.md) file for complete details.
