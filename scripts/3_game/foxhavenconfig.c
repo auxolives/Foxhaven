@@ -1,9 +1,13 @@
-class InventorySettings
+class PlayerSettings
 {
+    bool isHeatBufferEnabled;
+    bool isFoodandDrinkRestrictionEnabled;
     bool isRestrictedBagAccessEnabled;
 
-    void InventorySettings()
+    void PlayerSettings()
     {
+        isHeatBufferEnabled = false;
+        isFoodandDrinkRestrictionEnabled = true;
         isRestrictedBagAccessEnabled = true;
     }
 }
@@ -36,33 +40,33 @@ class WeatherSettings
 
 class PlayerConditionsSettings
 {
-    bool isPenaltyEnabled;
-    void PlayerConditionsSettings() { isPenaltyEnabled = true; }
+    bool isEnergyPenaltyEnabled;
+    void PlayerConditionsSettings() { isEnergyPenaltyEnabled = true; }
 }
 
 class TerrainSlopeSettings
 {
-    bool isPenaltyEnabled;
-    float slopeUpWeak_deg, slopeUpMedium_deg, slopeUpStrong_deg, slopeUpCritical_deg;
-    float slopeDownWeak_deg, slopeDownMedium_deg;
+    bool isSlopePenaltyEnabled;
+    float slopeUpWeak_degrees, slopeUpMedium_degrees, slopeUpStrong_degrees, slopeUpCritical_degrees;
+    float slopeDownWeak_degrees, slopeDownMedium_degrees;
 
     void TerrainSlopeSettings()
     {
-        isPenaltyEnabled = true;
-        slopeUpWeak_deg = 15.0; slopeUpMedium_deg = 22.0; slopeUpStrong_deg = 31.0; slopeUpCritical_deg = 40.0;
-        slopeDownWeak_deg = 36.0; slopeDownMedium_deg = 50.0;
+        isSlopePenaltyEnabled = true;
+        slopeUpWeak_degrees = 15.0; slopeUpMedium_degrees = 22.0; slopeUpStrong_degrees = 31.0; slopeUpCritical_degrees = 40.0;
+        slopeDownWeak_degrees = 36.0; slopeDownMedium_degrees = 50.0;
     }
 }
 
 class WeightSettings
 {
-    bool isPenaltyEnabled;
-    float loadPenaltyLevel1_g, loadPenaltyLevel2_g, loadPenaltyLevel3_g;
+    bool isWeightPenaltyEnabled;
+    float loadPenaltyLevel1_grams, loadPenaltyLevel2_grams, loadPenaltyLevel3_grams;
 
     void WeightSettings()
     {
-        isPenaltyEnabled = true;
-        loadPenaltyLevel1_g = 50000.0; loadPenaltyLevel2_g = 60000.0; loadPenaltyLevel3_g = 70000.0;
+        isWeightPenaltyEnabled = true;
+        loadPenaltyLevel1_grams = 50000.0; loadPenaltyLevel2_grams = 60000.0; loadPenaltyLevel3_grams = 70000.0;
     }
 }
 
@@ -83,17 +87,15 @@ class MovementPenaltiesSettings
 class FoxhavenConfigData
 {
     string ConfigVersion;
-    bool isHeatBufferEnabled;
-    ref MovementPenaltiesSettings movementPenaltiesSettings;
     ref WeatherSettings weatherSettings;
-    ref InventorySettings inventorySettings;
+    ref PlayerSettings playerSettings;
+    ref MovementPenaltiesSettings movementPenaltiesSettings;
 
     void FoxhavenConfigData()
     {
-        isHeatBufferEnabled = false;
-        movementPenaltiesSettings = new MovementPenaltiesSettings();
         weatherSettings = new WeatherSettings();
-        inventorySettings = new InventorySettings();
+        playerSettings = new PlayerSettings();
+        movementPenaltiesSettings = new MovementPenaltiesSettings();
     }
 }
 
@@ -101,14 +103,14 @@ class FoxhavenConfig
 {
     private static const string MOD_FOLDER = "$profile:Foxhaven/";
     private static const string CONFIG_PATH = MOD_FOLDER + "Config.json";
-    private static const string CURRENT_CONFIG_VERSION = "2.1";
+    private static const string CURRENT_CONFIG_VERSION = "0.34";
 
     private static ref FoxhavenConfig m_Instance;
     private ref FoxhavenConfigData m_SettingsData;
 
-    InventorySettings GetInventorySettings()
+    PlayerSettings GetplayerSettings()
     {
-        return m_SettingsData.inventorySettings;
+        return m_SettingsData.playerSettings;
     }
 
     static FoxhavenConfig GetInstance()
@@ -193,7 +195,7 @@ class FoxhavenConfig
 
     bool IsHeatBufferEnabled()
     {
-        return m_SettingsData.isHeatBufferEnabled;
+        return m_SettingsData.playerSettings.isHeatBufferEnabled;
     }
 
     MovementPenaltiesSettings GetMovementPenaltiesSettings()

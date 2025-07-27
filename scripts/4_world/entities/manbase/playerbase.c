@@ -13,7 +13,7 @@ modded class PlayerBase
     {
         super.OnCommandHandlerTick(delta_time, pCurrentCommandID);
         #ifdef SERVER
-            if (FoxhavenConfig.GetInstance().GetMovementPenaltiesSettings().terrainSlopeSettings.isPenaltyEnabled)
+            if (FoxhavenConfig.GetInstance().GetMovementPenaltiesSettings().terrainSlopeSettings.isSlopePenaltyEnabled)
             {
                 SlopePenaltyHandler(delta_time);
             }
@@ -55,19 +55,19 @@ modded class PlayerBase
 
 	override bool CanEatAndDrink()
 	{
-		EatingAndDrinkingSettings settings = FoxhavenConfig.GetInstance().GetEatingAndDrinkingSettings();
-		if (!settings || !settings.isRestrictionEnabled)
+		PlayerSettings settings = FoxhavenConfig.GetInstance().GetplayerSettings();
+		if (!settings || !settings.isFoodandDrinkRestrictionEnabled)
 		{
 			return super.CanEatAndDrink();
 		}
 
-		ItemBase headgear = GetInventory().FindAttachment(InventorySlots.HEADGEAR);
+		Clothing headgear = Clothing.Cast(GetInventory().FindAttachment(InventorySlots.HEADGEAR));
 		if (headgear && !headgear.CanBeEatenOrDrunkThrough(InventorySlots.HEADGEAR))
 		{
 			return false;
 		}
 
-		ItemBase mask = GetInventory().FindAttachment(InventorySlots.MASK);
+		Clothing mask = Clothing.Cast(GetInventory().FindAttachment(InventorySlots.MASK));
 		if (mask && !mask.CanBeEatenOrDrunkThrough(InventorySlots.MASK))
 		{
 			return false;

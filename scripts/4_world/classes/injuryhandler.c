@@ -22,7 +22,7 @@ modded class InjuryAnimationHandler
     private int CalculateTotalMalus()
     {
         MovementPenaltiesSettings movementSettings = FoxhavenConfig.GetInstance().GetMovementPenaltiesSettings();
-        if (!movementSettings.playerEnergyWaterBloodSettings.isPenaltyEnabled)
+        if (!movementSettings.playerEnergyWaterBloodSettings.isEnergyPenaltyEnabled)
             return 0;
 
         int m = 0;
@@ -42,21 +42,21 @@ modded class InjuryAnimationHandler
     private int CalculateLoadPenaltyStages()
     {
         MovementPenaltiesSettings movementSettings = FoxhavenConfig.GetInstance().GetMovementPenaltiesSettings();
-        if (!m_Player || !movementSettings.weightSettings.isPenaltyEnabled) 
+        if (!m_Player || !movementSettings.weightSettings.isWeightPenaltyEnabled) 
             return 0;
 
         WeightSettings weightSettings = movementSettings.weightSettings;
         float l = m_Player.GetPlayerLoad();
-        if (l > weightSettings.loadPenaltyLevel3_g) return 3;
-        if (l > weightSettings.loadPenaltyLevel2_g) return 2;
-        if (l > weightSettings.loadPenaltyLevel1_g) return 1;
+        if (l > weightSettings.loadPenaltyLevel3_grams) return 3;
+        if (l > weightSettings.loadPenaltyLevel2_grams) return 2;
+        if (l > weightSettings.loadPenaltyLevel1_grams) return 1;
         return 0;
     }
 
     private int CalculateSlopePenaltyStages()
     {
         MovementPenaltiesSettings movementSettings = FoxhavenConfig.GetInstance().GetMovementPenaltiesSettings();
-        if (!m_Player || !movementSettings.terrainSlopeSettings.isPenaltyEnabled)
+        if (!m_Player || !movementSettings.terrainSlopeSettings.isSlopePenaltyEnabled)
             return 0;
             
         TerrainSlopeSettings slopeSettings = movementSettings.terrainSlopeSettings;
@@ -64,16 +64,16 @@ modded class InjuryAnimationHandler
         int p = 0;
         if (a > 0)
         {
-            if (a > slopeSettings.slopeUpCritical_deg) p = 4;
-            else if (a > slopeSettings.slopeUpStrong_deg) p = 3;
-            else if (a > slopeSettings.slopeUpMedium_deg) p = 2;
-            else if (a > slopeSettings.slopeUpWeak_deg) p = 1;
+            if (a > slopeSettings.slopeUpCritical_degrees) p = 4;
+            else if (a > slopeSettings.slopeUpStrong_degrees) p = 3;
+            else if (a > slopeSettings.slopeUpMedium_degrees) p = 2;
+            else if (a > slopeSettings.slopeUpWeak_degrees) p = 1;
         }
         else if (a < 0)
         {
             float d = -a;
-            if (d > slopeSettings.slopeDownMedium_deg) p = 2; 
-            else if (d > slopeSettings.slopeDownWeak_deg) p = 1;
+            if (d > slopeSettings.slopeDownMedium_degrees) p = 2; 
+            else if (d > slopeSettings.slopeDownWeak_degrees) p = 1;
         }
         return p;
     }
