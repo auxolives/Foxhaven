@@ -1,6 +1,6 @@
 # Licensing & Monetization
 
-This map is licensed under the ADPL-SA (Arma and DayZ Public License – Share Alike).
+This map is licensed under the [ADPL-SA (Arma and DayZ Public License – Share Alike)](https://www.bohemia.net/community/licenses/arma-and-dayz-public-license-share-alike-adpl-sa).
 
 You may:
 - Explore, modify, and share it freely under the same license
