@@ -4,8 +4,7 @@ This map is licensed under the [ADPL-SA (Arma and DayZ Public License – Share 
 
 You may:
 - Explore, modify, and share it freely under the same license
-- Monetize your server if approved by Bohemia Interactive (BI) and listed at:
-https://www.bohemia.net/monetization/approved/dayz
+- Monetize your server if approved by [Bohemia Interactive (BI) and listed](https://www.bohemia.net/monetization/approved/dayz)
 - Consent is de jure given for monetization request to BI.
 
 You may not:
