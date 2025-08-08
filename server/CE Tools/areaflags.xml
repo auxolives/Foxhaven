@@ -53,94 +53,36 @@
             </territory>
         </territory-type>
         <territory-type name="hare_territories">
-            <territory name="06" visible="1" color="3002332147">
+            <territory name="Hare" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="8843.57" z="11971.9" r="50" d="2"/>
-            </territory>
-            <territory name="14" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="8829.47" z="12900.4" r="50" d="2"/>
-            </territory>
-            <territory name="03" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="11161.5" z="12316.5" r="50" d="2"/>
-            </territory>
-            <territory name="02" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="10371.1" z="12828.3" r="50" d="2"/>
-            </territory>
-            <territory name="10" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="8852.38" z="13278.9" r="50" d="2"/>
-            </territory>
-            <territory name="12" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="10596.4" z="13342.8" r="50" d="2"/>
-            </territory>
-            <territory name="05" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="11113.5" z="12823.1" r="50" d="2"/>
-            </territory>
-            <territory name="04" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="9589.29" z="11062.6" r="50" d="2"/>
-            </territory>
-            <territory name="29" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="8984.9" z="12996.4" r="50" d="2"/>
-            </territory>
-            <territory name="22" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="10384.5" z="11281.8" r="50" d="2"/>
-            </territory>
-            <territory name="18" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="10827.8" z="12825.4" r="50" d="2"/>
-            </territory>
-            <territory name="16" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="10494.2" z="11859.6" r="50" d="2"/>
-            </territory>
-            <territory name="28" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="9639.88" z="12781" r="50" d="2"/>
-            </territory>
-            <territory name="07" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="10019.1" z="13235.4" r="50" d="2"/>
-            </territory>
-            <territory name="09" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="10297" z="13571.4" r="50" d="2"/>
-            </territory>
-            <territory name="19" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="9390.53" z="12851.4" r="50" d="2"/>
-            </territory>
-            <territory name="27" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="10099.1" z="12958.6" r="50" d="2"/>
-            </territory>
-            <territory name="25" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="8826.2" z="14138.9" r="50" d="2"/>
-            </territory>
-            <territory name="20" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="9813.75" z="11207.1" r="50" d="2"/>
-            </territory>
-            <territory name="17" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="10649.5" z="12302.8" r="50" d="2"/>
-            </territory>
-            <territory name="24" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="10641.4" z="12080.4" r="50" d="2"/>
-            </territory>
-            <territory name="01" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="11196.8" z="11957" r="50" d="2"/>
-            </territory>
-            <territory name="13" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="9457.02" z="12687.3" r="50" d="2"/>
-            </territory>
-            <territory name="08" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="10263.4" z="10904.7" r="50" d="2"/>
-            </territory>
-            <territory name="21" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="9248.14" z="12184.5" r="50" d="2"/>
-            </territory>
-            <territory name="15" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="8645.97" z="12593.2" r="50" d="2"/>
-            </territory>
-            <territory name="11" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="8094.77" z="14145.8" r="50" d="2"/>
-            </territory>
-            <territory name="26" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="8696.95" z="13390.9" r="50" d="2"/>
-            </territory>
-            <territory name="23" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="10688.5" z="11585.3" r="50" d="2"/>
-            </territory>
-            <territory name="30" visible="1" color="3002332147">
                 <zone name="Zone_hare" smin="0" smax="0" dmin="0" dmax="0" x="8008.26" z="12570.3" r="50" d="2"/>
             </territory>
         </territory-type>
@@ -417,85 +359,33 @@
             </territory>
         </territory-type>
         <territory-type name="fox_territories">
-            <territory name="06" visible="1" color="3019855231">
+            <territory name="Fox" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="8929.57" z="12190.8" r="50" d="2"/>
-            </territory>
-            <territory name="27" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="10510.9" z="12271.1" r="50" d="2"/>
-            </territory>
-            <territory name="15" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="10457" z="13195.4" r="50" d="2"/>
-            </territory>
-            <territory name="08" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="10085.8" z="11918.6" r="50" d="2"/>
-            </territory>
-            <territory name="22" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="10536.4" z="12595.9" r="50" d="2"/>
-            </territory>
-            <territory name="13" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="9853.06" z="10939.2" r="50" d="2"/>
-            </territory>
-            <territory name="24" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="9025.75" z="12605.4" r="50" d="2"/>
-            </territory>
-            <territory name="23" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="9343.88" z="13063.7" r="50" d="2"/>
-            </territory>
-            <territory name="25" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="8766.55" z="12433.4" r="50" d="2"/>
-            </territory>
-            <territory name="19" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="10257.6" z="10799.8" r="50" d="2"/>
-            </territory>
-            <territory name="01" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="9776.47" z="12024.7" r="50" d="2"/>
-            </territory>
-            <territory name="04" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="9820.15" z="11733.5" r="50" d="2"/>
-            </territory>
-            <territory name="17" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="10093.1" z="12584.9" r="50" d="2"/>
-            </territory>
-            <territory name="26" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="9594.78" z="11240.9" r="50" d="2"/>
-            </territory>
-            <territory name="03" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="8666.78" z="13711.8" r="50" d="2"/>
-            </territory>
-            <territory name="14" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="8752.95" z="13553.8" r="50" d="2"/>
-            </territory>
-            <territory name="07" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="11215.3" z="12486.6" r="50" d="2"/>
-            </territory>
-            <territory name="12" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="9432.49" z="10904.9" r="50" d="2"/>
-            </territory>
-            <territory name="21" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="8497.86" z="14268.5" r="50" d="2"/>
-            </territory>
-            <territory name="05" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="8424.49" z="12740.3" r="50" d="2"/>
-            </territory>
-            <territory name="18" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="10577.6" z="11702.6" r="50" d="2"/>
-            </territory>
-            <territory name="20" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="9953" z="12194.3" r="50" d="2"/>
-            </territory>
-            <territory name="10" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="10862.9" z="12652.5" r="50" d="2"/>
-            </territory>
-            <territory name="02" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="2" x="9234.5" z="11902.3" r="50" d="2"/>
-            </territory>
-            <territory name="11" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="8742.21" z="14488.9" r="50" d="2"/>
-            </territory>
-            <territory name="16" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="10806.2" z="13110.6" r="50" d="2"/>
-            </territory>
-            <territory name="09" visible="1" color="3019855231">
                 <zone name="Zone_fox" smin="0" smax="0" dmin="0" dmax="0" x="10577.6" z="13533.5" r="50" d="2"/>
             </territory>
         </territory-type>
