@@ -53,8 +53,8 @@ class TerrainSlopeSettings
     void TerrainSlopeSettings()
     {
         isSlopePenaltyEnabled = true;
-        slopeUpWeak_degrees = 15.0; slopeUpMedium_degrees = 22.0; slopeUpStrong_degrees = 31.0; slopeUpCritical_degrees = 40.0;
-        slopeDownWeak_degrees = 36.0; slopeDownMedium_degrees = 50.0;
+        slopeUpWeak_degrees = 12.0; slopeUpMedium_degrees = 20.0; slopeUpStrong_degrees = 28.0; slopeUpCritical_degrees = 36.0;
+        slopeDownWeak_degrees = 24.0; slopeDownMedium_degrees = 32.0;
     }
 }
 
@@ -108,10 +108,10 @@ class FoxhavenConfig
     private static ref FoxhavenConfig m_Instance;
     private ref FoxhavenConfigData m_SettingsData;
 
-    PlayerSettings GetplayerSettings()
-    {
-        return m_SettingsData.playerSettings;
-    }
+	PlayerSettings GetPlayerSettings()
+	{
+		return m_SettingsData.playerSettings;
+	}
 
     static FoxhavenConfig GetInstance()
     {
