@@ -61,7 +61,7 @@ class FoxhavenData extends WorldData
         
         if (m_ConfigWeatherSettings)
         {
-            m_WeatherDefaultSettings.m_StormThreshold = m_ConfigWeatherSettings.StormThreshold;
+            m_WeatherDefaultSettings.m_StormThreshold = Math.Clamp(m_ConfigWeatherSettings.StormThreshold, 0.0, 1.0);
         }
         else 
         {
@@ -103,9 +103,9 @@ class FoxhavenData extends WorldData
                 phmnTime = Math.RandomIntInclusive(m_WeatherDefaultSettings.m_OvercastMinTime, m_WeatherDefaultSettings.m_OvercastMaxTime) * timeMultiplier;
                 phmnLength = Math.RandomIntInclusive(m_WeatherDefaultSettings.m_OvercastMinLength, m_WeatherDefaultSettings.m_OvercastMaxLength) * timeMultiplier;                
             
-                int clearChance = 40;
-                int cloudyChance = 35;
-                int badChance = 25;
+                float clearChance = 40.0;
+                float cloudyChance = 35.0;
+                float badChance = 25.0;
 
                 if (m_ConfigWeatherSettings)
                 {
@@ -114,8 +114,47 @@ class FoxhavenData extends WorldData
                     badChance = m_ConfigWeatherSettings.BadWeatherChance_Percent;
                 }
 
-                int totalChance = clearChance + cloudyChance + badChance;
-                if (totalChance != 100)
+                bool chanceAdjusted = false;
+                if (clearChance < 0)
+                {
+                    clearChance = 0;
+                    chanceAdjusted = true;
+                }
+                else if (clearChance > 100)
+                {
+                    clearChance = 100;
+                    chanceAdjusted = true;
+                }
+
+                if (cloudyChance < 0)
+                {
+                    cloudyChance = 0;
+                    chanceAdjusted = true;
+                }
+                else if (cloudyChance > 100)
+                {
+                    cloudyChance = 100;
+                    chanceAdjusted = true;
+                }
+
+                if (badChance < 0)
+                {
+                    badChance = 0;
+                    chanceAdjusted = true;
+                }
+                else if (badChance > 100)
+                {
+                    badChance = 100;
+                    chanceAdjusted = true;
+                }
+
+                if (chanceAdjusted)
+                {
+                    Print("[Foxhaven] !!! WARNING: Weather chances must be between 0 and 100. Values have been clamped.");
+                }
+
+                float totalChance = clearChance + cloudyChance + badChance;
+                if (totalChance != 100.0)
                 {
                     Print("[Foxhaven] !!! WARNING: Configured weather chances do not sum to 100%. Normalizing values to maintain proportions.");
                     if (totalChance == 0)
@@ -123,13 +162,11 @@ class FoxhavenData extends WorldData
                         clearChance = 40;
                         cloudyChance = 35;
                         badChance = 25;
+                        totalChance = clearChance + cloudyChance + badChance;
                     }
-                    else
-                    {
-                        clearChance = (clearChance / (float)totalChance) * 100;
-                        cloudyChance = (cloudyChance / (float)totalChance) * 100;
-                        badChance = 100 - clearChance - cloudyChance;
-                    }
+                    clearChance = (clearChance / totalChance) * 100.0;
+                    cloudyChance = (cloudyChance / totalChance) * 100.0;
+                    badChance = 100.0 - clearChance - cloudyChance;
                 }
 
                 int randomRoll = Math.RandomIntInclusive(1, 100);
@@ -186,8 +223,15 @@ class FoxhavenData extends WorldData
                     if (m_ConfigWeatherSettings && m_ConfigWeatherSettings.IsFogEnabled && Math.RandomIntInclusive(1, 100) <= m_ConfigWeatherSettings.FogChance)
                     {
                         float exponent = 4.0;
-                        float minFog = m_ConfigWeatherSettings.MinFog;
-                        float maxFog = m_ConfigWeatherSettings.MaxFog;
+                        float minFog = Math.Clamp(m_ConfigWeatherSettings.MinFog, 0.0, 1.0);
+                        float maxFog = Math.Clamp(m_ConfigWeatherSettings.MaxFog, 0.0, 1.0);
+
+                        if (minFog > maxFog)
+                        {
+                            float tmp = minFog;
+                            minFog = maxFog;
+                            maxFog = tmp;
+                        }
 
                         float randomBase = Math.RandomFloat01();
                         float biasedRandom = Math.Pow(randomBase, exponent);
@@ -204,7 +248,7 @@ class FoxhavenData extends WorldData
             {
                 float actualOvercast = m_Weather.GetOvercast().GetActual();
                 
-                m_Chance = Math.RandomIntInclusive(0, 100);
+                int chance = Math.RandomIntInclusive(0, 100);
                 phmnValue = 0.2;
                 phmnTime = 90 * timeMultiplier;
                 phmnLength = 0;
@@ -219,16 +263,16 @@ class FoxhavenData extends WorldData
                 }
                 else if (actualOvercast < 0.75)
                 {
-                    if (m_Chance < 30) { phmnValue = Math.RandomFloatInclusive(0.1, 0.3); }
-                    else if (m_Chance < 60) { phmnValue = Math.RandomFloatInclusive(0.2, 0.5); }
-                    else if (m_Chance < 80) { phmnValue = Math.RandomFloatInclusive(0.0, 0.2); }
+                    if (chance < 30) { phmnValue = Math.RandomFloatInclusive(0.1, 0.3); }
+                    else if (chance < 60) { phmnValue = Math.RandomFloatInclusive(0.2, 0.5); }
+                    else if (chance < 80) { phmnValue = Math.RandomFloatInclusive(0.0, 0.2); }
                     else { phmnValue = 0; }
                 }
                 else
                 {
-                    if (m_Chance < 25) { phmnValue = Math.RandomFloatInclusive(0.5, 0.7); }
-                    else if (m_Chance < 50) { phmnValue = Math.RandomFloatInclusive(0.2, 0.4); }
-                    else if (m_Chance < 75) { phmnValue = Math.RandomFloatInclusive(0.4, 0.6); }
+                    if (chance < 25) { phmnValue = Math.RandomFloatInclusive(0.5, 0.7); }
+                    else if (chance < 50) { phmnValue = Math.RandomFloatInclusive(0.2, 0.4); }
+                    else if (chance < 75) { phmnValue = Math.RandomFloatInclusive(0.4, 0.6); }
                     else { phmnValue = 0; }
                 }
                 
