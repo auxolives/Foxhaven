@@ -1,3 +1,9 @@
+enum Foxhaven_EatDrinkRestriction
+{
+	NONE,
+	HEADGEAR,
+	MASK
+}
 modded class PlayerBase
 {
     float m_SlopeAngle;
@@ -15,12 +21,12 @@ modded class PlayerBase
         #ifdef SERVER
             if (FoxhavenConfig.GetInstance().GetMovementPenaltiesSettings().terrainSlopeSettings.isSlopePenaltyEnabled)
             {
-                SlopePenaltyHandler(delta_time);
+                Foxhaven_SlopePenaltyHandler(delta_time);
             }
         #endif
     }
 
-    void SlopePenaltyHandler(float delta_time)
+    void Foxhaven_SlopePenaltyHandler(float delta_time)
     {
         m_SlopeCheckTimer -= delta_time;
         if (m_SlopeCheckTimer > 0) return;
@@ -53,26 +59,34 @@ modded class PlayerBase
             m_InjuryHandler.m_TimeSinceLastTick = m_InjuryHandler.VALUE_CHECK_INTERVAL + 1;
     }
 
-	override bool CanEatAndDrink()
+	Foxhaven_EatDrinkRestriction GetEatDrinkRestriction()
 	{
-		PlayerSettings settings = FoxhavenConfig.GetInstance().GetplayerSettings();
-		if (!settings || !settings.isFoodandDrinkRestrictionEnabled)
+		PlayerSettings settings = FoxhavenConfig.GetInstance().GetPlayerSettings();
+		if (!settings || !settings.isFoodandDrinkRestrictionEnabled) 
 		{
-			return super.CanEatAndDrink();
+			return Foxhaven_EatDrinkRestriction.NONE;
 		}
 
 		Clothing headgear = Clothing.Cast(GetInventory().FindAttachment(InventorySlots.HEADGEAR));
-		if (headgear && !headgear.CanBeEatenOrDrunkThrough(InventorySlots.HEADGEAR))
+		if (headgear && !headgear.CanBeEatenOrDrunkThrough(InventorySlots.HEADGEAR)) 
 		{
-			return false;
+			return Foxhaven_EatDrinkRestriction.HEADGEAR;
 		}
 
 		Clothing mask = Clothing.Cast(GetInventory().FindAttachment(InventorySlots.MASK));
-		if (mask && !mask.CanBeEatenOrDrunkThrough(InventorySlots.MASK))
+		if (mask && !mask.CanBeEatenOrDrunkThrough(InventorySlots.MASK)) 
 		{
-			return false;
+			return Foxhaven_EatDrinkRestriction.MASK;
 		}
 
-		return true;
+		return Foxhaven_EatDrinkRestriction.NONE;
+	}
+
+	override bool CanEatAndDrink()
+	{
+		if (GetEatDrinkRestriction() != Foxhaven_EatDrinkRestriction.NONE)
+			return false;
+
+		return super.CanEatAndDrink();
 	}
 }

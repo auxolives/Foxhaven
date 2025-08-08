@@ -7,7 +7,7 @@ modded class Backpack_Base
 
 	override bool CanDisplayCargo()
 	{
-		PlayerSettings settings = FoxhavenConfig.GetInstance().GetplayerSettings();
+		PlayerSettings settings = FoxhavenConfig.GetInstance().GetPlayerSettings();
 		
 		if (!settings || !settings.isRestrictedBagAccessEnabled)
 		{
