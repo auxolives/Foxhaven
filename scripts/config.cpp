@@ -12,6 +12,7 @@ class CfgPatches
 		};
 	};
 };
+
 class CfgMods
 {
 	class Foxhaven_Scripts
@@ -27,6 +28,12 @@ class CfgMods
 			"World",
 			"Mission"
 		};
+		
+		class Resources
+		{
+			stringRestrictionBlockedByGear = "#STR_Foxhaven_BlockedByGear";
+		};
+		
 		class defs
 		{
 			class gameScriptModule
@@ -36,6 +43,7 @@ class CfgMods
 					"Foxhaven/scripts/3_game"
 				};
 			};
+			
 			class worldScriptModule
 			{
 				value = "";
@@ -43,6 +51,7 @@ class CfgMods
 					"Foxhaven/scripts/4_world"
 				};
 			};
+			
 			class missionScriptModule
 			{
 				value = "";
